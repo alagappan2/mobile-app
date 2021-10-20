@@ -12,20 +12,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _scanBarcode = 'Unknown';
+  String _scanBarcode = 'Park Your Car and Scan the QR Code';
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> startBarcodeScanStream() async {
-    FlutterBarcodeScanner.getBarcodeStreamReceiver(
-            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
-        .listen((barcode) => print(barcode));
-  }
-
-  Future<void> scanQR() async {
+  Future<void> ParkCarQRScan() async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
@@ -42,30 +36,25 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _scanBarcode = barcodeScanRes;
+      _scanBarcode = getParkingString(barcodeScanRes);
     });
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+  String getParkingString(String barcodeScanRes){
+
+    var info= barcodeScanRes.split(" ");
+
+    if(info.length ==4) {
+      return "You have Parked your car in " + info[0] + " floor, "+ info[1] + " Parking slot - "+info[2] + " lat,"+info[3]+" long";
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
+    return barcodeScanRes;
+  }
 
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
+  Future<void> getMeBack() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+        '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+        .listen((barcode) => print(barcode));
   }
 
   @override
@@ -80,16 +69,16 @@ class _MyAppState extends State<MyApp> {
                       direction: Axis.vertical,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        ElevatedButton(
+                        /*ElevatedButton(
                             onPressed: () => scanBarcodeNormal(),
-                            child: Text('Start barcode scan')),
+                            child: Text('Start barcode scan')),*/
                         ElevatedButton(
-                            onPressed: () => scanQR(),
-                            child: Text('Start QR scan')),
+                            onPressed: () => ParkCarQRScan(),
+                            child: Text('Park Car')),
                         ElevatedButton(
-                            onPressed: () => startBarcodeScanStream(),
-                            child: Text('Start barcode scan stream')),
-                        Text('Scan result : $_scanBarcode\n',
+                            onPressed: () => getMeBack(),
+                            child: Text('Get me back to Car')),
+                        Text('$_scanBarcode\n',
                             style: TextStyle(fontSize: 20))
                       ]));
             })));

@@ -9,10 +9,8 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Always use location</string>
 
-    <key>NSBonjourServices</key>
-	<array>
-		<string>_dartobservatory._tcp</string>
-	</array>
+    <key>UIBackgroundModes</key>
+    <string>location</string>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -58,21 +56,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
-	<key>FlutterDeepLinkingEnabled</key>
-    <true/>
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLName</key>
-        <string>jpmc1.com</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-        <string>customscheme</string>
-        </array>
-        </dict>
-    </array>
 </dict>
 </plist>

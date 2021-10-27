@@ -4,13 +4,17 @@ publish_to: 'none'
 version: 2.0.0-nullsafety.0
 
 environment:
-  sdk: '>=2.12.0-0 <3.0.0'
+  sdk: '>=2.13.0-68.0.dev <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.1+1
-  flutter_plugin_android_lifecycle: ^2.0.0-nullsafety
+  flutter_plugin_android_lifecycle: ^2.0.1
+  google_maps_flutter: ^2.0.11
+  location: ^4.3.0
+  flutter_polyline_points: ^1.0.0
+  uni_links: ^0.5.1
 
 dev_dependencies:
   flutter_test:
@@ -23,3 +27,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/destination_map_marker.png
+    - assets/driving_pin.png
+    - assets/friend1.jpg
+    - assets/friend2.jpg

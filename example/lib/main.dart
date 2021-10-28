@@ -199,8 +199,17 @@ class _MyAppState extends State<WhereIsMyCar> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
             appBar: AppBar(title: const Text('MyWorkplace'),
+                leading: const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: ClipOval(
+                    child: Image(
+                      image: AssetImage('assets/friend1.jpg'),
+                    ),
+                  ),
+                ),
                 actions: <Widget>[
                 //IconButton(icon: const Icon(Icons.add_circle),onPressed: _insert("Text"), tooltip: 'insert a new item',),
                 IconButton(icon: const Icon(Icons.remove_circle),onPressed: _remove,tooltip: 'remove the selected item',)

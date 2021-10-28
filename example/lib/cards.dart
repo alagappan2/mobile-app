@@ -92,10 +92,11 @@ class CardItem extends StatelessWidget {
     numMap[3] = "3";
     numMap[4] = "4";
 
-    var now = DateTime.now();
+    //var now = DateTime.now();
+    final dateTime = DateTime.now();
     for (MapEntry e in numMap.entries) {
       if (e.key == item) {
-        return "You have Parked your car in first floor, "+ e.value + " Parking slot at $now time";
+        return "${dateTime.hour}:${dateTime.minute} Car Parked in 1st floor, "+ e.value + " Parking slots";
       }
     }
     return "";
@@ -119,7 +120,7 @@ class CardItem extends StatelessWidget {
           child: SizedBox(
             height: 80.0,
             child: Card(
-              color: Colors.primaries[item % Colors.primaries.length],
+              color: Colors.lightBlue,//Colors.primaries[item % Colors.primaries.length],
               child: Center(
                 child: Text(getMap(item),
                     style: textStyle),

@@ -96,7 +96,7 @@ class CardItem extends StatelessWidget {
     final dateTime = DateTime.now();
     for (MapEntry e in numMap.entries) {
       if (e.key == item) {
-        return "${dateTime.hour}:${dateTime.minute} Car Parked in 1st floor, "+ e.value + " Parking slots";
+        return "${dateTime.hour}:${dateTime.minute} ${dateTime.hour > 12 ? 'AM' : 'PM'}  Parking Deck C: Level 2: Block " + e.value;
       }
     }
     return "";

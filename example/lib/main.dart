@@ -29,6 +29,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
@@ -43,13 +45,29 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.qr_code_scanner),
             title: Text('SCAN'),
           ),
-        ],
+        ],onTap: (index) {
+//            print('current i = $currentIndex, clicked = $index');
+
+        if (index == currentIndex) {
+      switch (index) {
+        case 0:
+          firstTabNavKey.currentState!.popUntil((r) => r.isFirst);
+          break;
+        case 1:
+          secondTabNavKey.currentState!.popUntil((r) => r.isFirst);
+          break;
+      }
+    }
+
+    currentIndex = index;
+  },
       ),
+
       tabBuilder: (context, index) {
         if (index == 0) {
           return CupertinoTabView(
             navigatorKey: firstTabNavKey,
-            builder: (BuildContext context) => new WhereIsMyCar(),
+            builder: (BuildContext context) => WhereIsMyCar(),
           );
         }  else {
           return CupertinoTabView(
@@ -84,7 +102,9 @@ class _MyAppState extends State<WhereIsMyCar> {
       final initialLink = await getInitialLink();
       // Parse the link and warn the user, if it is not correct,
       // but keep in mind it could be `null`.
-      return initialLink!;
+      if(initialLink != null) {
+        return initialLink;
+      }
     } on PlatformException {
       // Handle exception by warning the user their action did not succeed
       // return?
@@ -97,9 +117,11 @@ class _MyAppState extends State<WhereIsMyCar> {
     print("In InitState");
     initUniLinks().then((value) => this.setState(() {
       link = value;
-      print("here with link : "+link);
+      print("link : "+value);
 
-      getParkingString(link);
+      if(value != null && value != "") {
+        getParkingString(value);
+      }
     }));
     super.initState();
 
@@ -121,6 +143,8 @@ class _MyAppState extends State<WhereIsMyCar> {
       onTap: () {
         setState(() {
           _selectedItem = _selectedItem == _list[index] ? null : _list[index];
+
+          getMeBack();
         });
       },
       text: "text 111",
@@ -219,24 +243,26 @@ class _MyAppState extends State<WhereIsMyCar> {
                   alignment: Alignment.center,
                   child: Flex(
                       direction: Axis.vertical,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
+                        Image.asset('assets/compass_225.png',
+                        color: Colors.blueAccent,),
+
                         ElevatedButton(
                             onPressed: () => ParkCarQRScan(),
-                            child: Text('Park Car')),
-                        ElevatedButton(
-                            onPressed: () => {
-                              getMeBack()
-                            },
-                            child: Text('Get me back to Car')),
-                        Text(
-                            link == null ? "" : link
+                            child: Text('Park Car'),
+                            style :ElevatedButton.styleFrom(
+                              padding: EdgeInsets.all(18),
+                            ),
                         ),
                         AnimatedList(
                           key: _listKey,
                           initialItemCount: _list.length,
                           itemBuilder: _buildItem,
-                          shrinkWrap: true
+                          shrinkWrap: true,
+                          reverse: true,
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+
                         ),
                       ]));
             })));
